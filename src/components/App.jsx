@@ -32,6 +32,13 @@ const App = () => {
   };
 
   useEffect(() => {
+    const savedContacts = JSON.parse(localStorage.getItem('contacts'));
+    if (savedContacts) {
+      setContacts(savedContacts);
+    }
+  }, []);
+
+  useEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false;
       return;
@@ -39,13 +46,6 @@ const App = () => {
     
     localStorage.setItem('contacts', JSON.stringify(contacts))
   }, [contacts]);
-
-  useEffect(() => {
-    const savedContacts = JSON.parse(localStorage.getItem('contacts'));
-    if (savedContacts) {
-      setContacts(savedContacts);
-    }
-  }, []);
 
   return (
     <div className={css.container}>
