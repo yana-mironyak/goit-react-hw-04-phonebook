@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import css from './App.module.css';
 
 
@@ -10,6 +10,7 @@ import { nanoid } from "nanoid";
 const App = () => {
   const [contacts, setContacts] = useState([]);
   const [filter, setFilter] = useState('');
+  const isFirstRender = useRef(true);
 
   const handleSubmit = ({ name, number }, { resetForm }) => {
     const id = nanoid();
@@ -31,8 +32,10 @@ const App = () => {
   };
 
   useEffect(() => {
-    if (contacts.length === 0)
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
       return;
+    }
     
     localStorage.setItem('contacts', JSON.stringify(contacts))
   }, [contacts]);
